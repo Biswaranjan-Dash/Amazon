@@ -24,7 +24,7 @@ products.forEach((item)=>{
     </div>
 
     <div class="product-quantity-container">
-    <select>
+    <select class="dropdown-${item.id}">
         <option selected value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -45,10 +45,41 @@ products.forEach((item)=>{
     Added
     </div>
 
-    <button class="add-to-cart-button button-primary">
+    <button class="add-to-cart-button button-primary button-js" data-product-id=${item.id}>
     Add to Cart
     </button>
     </div>`;
-    document.querySelector(".products-grid").innerHTML+=html;;
+    document.querySelector(".products-grid").innerHTML+=html;
 });
-console.log(document.querySelector(".products-grid"));
+
+let q=0;
+document.querySelectorAll(".button-js")
+    .forEach((button)=>{
+        button.addEventListener('click', ()=>{
+            const id=button.dataset.productId;
+            const quantity=Number(document.querySelector(`.dropdown-${id}`).value);
+            let flag;
+
+            cart.forEach((item)=>{
+                if(item.id===id){
+                    flag=item;
+                }
+            })
+
+            if(flag){
+                flag.quantity+=quantity;
+            }
+            else{
+                cart.push({
+                id:id,
+                quantity:quantity
+            })
+            }
+            q+=quantity;
+            console.log(q);
+            document.querySelector(".js-quantity")
+                .innerHTML=q;
+        })
+    })
+
+console.log(document.querySelector(".dropdown").value);
