@@ -1,4 +1,5 @@
-
+import{cart} from '../data/cart.js';
+import{products} from '../data/products.js';
 
 products.forEach((item)=>{
         let html=`<div class="product-container">
@@ -52,7 +53,7 @@ products.forEach((item)=>{
     document.querySelector(".products-grid").innerHTML+=html;
 });
 
-let q=0;
+let cartrsize=0;
 document.querySelectorAll(".button-js")
     .forEach((button)=>{
         button.addEventListener('click', ()=>{
@@ -75,11 +76,8 @@ document.querySelectorAll(".button-js")
                 quantity:quantity
             })
             }
-            q+=quantity;
-            console.log(q);
+            cartrsize+=quantity;
             document.querySelector(".js-quantity")
-                .innerHTML=q;
+                .innerHTML=cartrsize;
         })
     })
-
-console.log(document.querySelector(".dropdown").value);
