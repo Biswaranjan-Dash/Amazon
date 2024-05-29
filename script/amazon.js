@@ -1,8 +1,20 @@
-import{addcart} from '../data/cart.js';
-import{products} from '../data/products.js';
+import { addcart,size} from "../data/cart.js";
+import { products } from "../data/products.js";
+function updatecartsize() {
+  let cartsize = size();
+  if(cartsize){
+    document.querySelector(".js-quantity").innerHTML = cartsize;
+  }
+  else{
+    document.querySelector(".js-quantity").innerHTML = "";
+  }
+}
 
-products.forEach((item)=>{
-    document.querySelector(".products-grid").innerHTML+=`<div class="product-container">
+
+products.forEach((item) => {
+  document.querySelector(
+    ".products-grid"
+  ).innerHTML += `<div class="product-container">
     <div class="product-image-container">
     <img class="product-image"
         src="${item.image}">
@@ -14,14 +26,14 @@ products.forEach((item)=>{
 
     <div class="product-rating-container">
     <img class="product-rating-stars"
-        src="images/ratings/rating-${item.rating.stars *10}.png">
+        src="images/ratings/rating-${item.rating.stars * 10}.png">
     <div class="product-rating-count link-primary">
     ${item.rating.count}
     </div>
     </div>
 
     <div class="product-price">
-    $${(item.priceCents/100).toFixed(2)}
+    $${(item.priceCents / 100).toFixed(2)}
     </div>
 
     <div class="product-quantity-container">
@@ -46,22 +58,20 @@ products.forEach((item)=>{
     Added
     </div>
 
-    <button class="add-to-cart-button button-primary button-js" data-product-id=${item.id}>
+    <button class="add-to-cart-button button-primary button-js" data-product-id=${
+      item.id
+    }>
     Add to Cart
     </button>
     </div>`;
-    
 });
+updatecartsize();
 
-let cartrsize=0;
-document.querySelectorAll(".button-js")
-    .forEach((button)=>{
-        button.addEventListener('click', ()=>{
-            const id=button.dataset.productId;
-            const quantity=Number(document.querySelector(`.dropdown-${id}`).value);
-            addcart(id,quantity);
-            cartrsize+=quantity;
-            document.querySelector(".js-quantity")
-                .innerHTML=cartrsize;
-        })
-    })
+document.querySelectorAll(".button-js").forEach((button) => {
+  button.addEventListener("click", () => {
+    const id = button.dataset.productId;
+    const quantity = Number(document.querySelector(`.dropdown-${id}`).value);
+    addcart(id, quantity);
+    updatecartsize();
+  });
+});
