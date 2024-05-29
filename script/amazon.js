@@ -1,8 +1,8 @@
-import{cart} from '../data/cart.js';
+import{addcart} from '../data/cart.js';
 import{products} from '../data/products.js';
 
 products.forEach((item)=>{
-        let html=`<div class="product-container">
+    document.querySelector(".products-grid").innerHTML+=`<div class="product-container">
     <div class="product-image-container">
     <img class="product-image"
         src="${item.image}">
@@ -50,7 +50,7 @@ products.forEach((item)=>{
     Add to Cart
     </button>
     </div>`;
-    document.querySelector(".products-grid").innerHTML+=html;
+    
 });
 
 let cartrsize=0;
@@ -59,23 +59,7 @@ document.querySelectorAll(".button-js")
         button.addEventListener('click', ()=>{
             const id=button.dataset.productId;
             const quantity=Number(document.querySelector(`.dropdown-${id}`).value);
-            let flag;
-
-            cart.forEach((item)=>{
-                if(item.id===id){
-                    flag=item;
-                }
-            })
-
-            if(flag){
-                flag.quantity+=quantity;
-            }
-            else{
-                cart.push({
-                id:id,
-                quantity:quantity
-            })
-            }
+            addcart(id,quantity);
             cartrsize+=quantity;
             document.querySelector(".js-quantity")
                 .innerHTML=cartrsize;

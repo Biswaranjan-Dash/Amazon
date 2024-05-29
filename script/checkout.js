@@ -1,12 +1,17 @@
-import{cart} from "../data/cart.js";
+import{cart,removeitem,size} from "../data/cart.js";
 import {products} from "../data/products.js";
-// console.log(cart);
+
+function updatecartsize() {
+  let cartsize = size();
+  document.querySelector(".js-cartsize")
+    .innerHTML = `Checkout (<a class="return-to-home-link"
+    href="amazon.html">${cartsize} items</a>)`;
+}
 
 cart.forEach(cartitem=> {
-    let productid=cartitem.id;
     let flag;
     products.forEach(item =>{
-        if(item.id===productid){
+        if(item.id===cartitem.id){
             flag=item;
         }
         
@@ -14,7 +19,7 @@ cart.forEach(cartitem=> {
     if(flag){
     document.querySelector(".js-cart-value")
         .innerHTML+=`
-        <div class="cart-item-container">
+        <div class="cart-item-container-${cartitem.id}">
         <div class="delivery-date">
           Delivery date: Tuesday, June 21
         </div>
@@ -37,7 +42,7 @@ cart.forEach(cartitem=> {
               <span class="update-quantity-link link-primary">
                 Update
               </span>
-              <span class="delete-quantity-link link-primary">
+              <span class="delete-quantity-link link-primary js-delete data" data-product-id=${cartitem.id}>
                 Delete
               </span>
             </div>
@@ -90,6 +95,17 @@ cart.forEach(cartitem=> {
         </div>
         </div>`;
     }
-
-
 });
+updatecartsize();
+
+document.querySelectorAll(".js-delete")
+  .forEach(item =>{
+      item.addEventListener('click',()=>{
+          let check=item.dataset.productId;
+          removeitem(check);
+          document.querySelector(`.cart-item-container-${check}`)
+            .remove();
+          updatecartsize();
+      })
+
+  });
